@@ -1,0 +1,20 @@
+FROM alpine:latest
+
+RUN apk add --no-cache xvfb x11vnc fluxbox supervisor xterm bash chromium xrdp
+RUN apk add --no-cache wqy-zenhei novnc websockify firefox -X https://mirrors.aliyun.com/alpine/edge/testing/
+
+RUN ln -s /usr/share/novnc/vnc_lite.html /usr/share/novnc/index.html
+
+ADD supervisord.conf /etc/supervisord.conf
+ADD xrdp.ini /etc/xrdp/xrdp.ini
+ADD menu /root/.fluxbox/menu
+ADD entry.sh /entry.sh
+
+RUN chmod +x /entry.sh
+
+ENV DISPLAY :0
+ENV RESOLUTION=1024x768
+
+EXPOSE 5901 6901
+
+ENTRYPOINT ["/bin/bash", "-c", "/entry.sh"]

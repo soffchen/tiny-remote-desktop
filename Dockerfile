@@ -1,7 +1,8 @@
-FROM alpine:latest
+FROM alpine:edge
 
-RUN apk add --no-cache xvfb x11vnc fluxbox supervisor xterm bash chromium xrdp
-RUN apk add --no-cache wqy-zenhei novnc websockify firefox -X https://mirrors.aliyun.com/alpine/edge/testing/
+RUN echo "http://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories
+RUN apk update
+RUN apk add --no-cache xvfb x11vnc fluxbox supervisor xterm bash chromium firefox xrdp wqy-zenhei novnc websockify
 
 RUN ln -s /usr/share/novnc/vnc_lite.html /usr/share/novnc/index.html
 

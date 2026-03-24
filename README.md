@@ -66,7 +66,6 @@ If you need an even smaller image:
 
 | Variable | Default | Description |
 |----------|---------|-------------|
-| `DISPLAY` | `:0` | X display number |
 | `RESOLUTION` | `1024x768` | Screen resolution |
 | `VNC_PASSWORD` | (none) | VNC password (optional) |
 | `ENABLE_VNC` | `true` | Enable VNC server |
@@ -196,4 +195,4 @@ docker build -t tiny-remote-desktop .
 
 ## License
 
-Open source - use freely for personal and educational purposes.
+This project does not yet include a formal license file. All rights are reserved by the maintainer unless otherwise stated. Please contact the maintainer for usage permissions.

@@ -18,7 +18,7 @@
 [encoding] {UTF-8}
       [exec] (Firefox) {firefox}
 [submenu] (System Tools)
-      [exec]   (top) {xterm -e top}
+      [exec]   (top) {x-terminal-emulator -e top}
 [end]
 [submenu] (Fluxbox menu)
       [config] (Configure)

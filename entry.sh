@@ -8,7 +8,7 @@ if [ "$VNC_PASSWORD" ]; then
     # Make the change idempotent: remove any existing -passwd or -rfbauth args
     sed -i 's/ -passwd [^ ]*//g; s/ -rfbauth [^ ]*//g' /etc/supervisord.conf
     # Append the auth file option to the x11vnc command
-    sed -i "s/^\(command.*x11vnc.*\)$/\1 -rfbauth $VNC_PASSFILE/" /etc/supervisord.conf
+    sed -i "s|^\(command.*x11vnc.*\)$|\1 -rfbauth ${VNC_PASSFILE}|" /etc/supervisord.conf
 fi
 
 # Ensure noVNC is not enabled when VNC is disabled

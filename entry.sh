@@ -1,8 +1,24 @@
 #!/bin/sh
 
-# Configure VNC password if provided
+# Configure VNC password if provided (idempotent using -rfbauth)
 if [ "$VNC_PASSWORD" ]; then
-    sed -i "s/^\(command.*x11vnc.*\)$/\1 -passwd '$VNC_PASSWORD'/" /etc/supervisord.conf
+    VNC_PASSFILE="/root/.vncpass"
+    x11vnc -storepasswd "$VNC_PASSWORD" "$VNC_PASSFILE"
+    chmod 600 "$VNC_PASSFILE"
+    # Make the change idempotent: remove any existing -passwd, -rfbauth, or -nopw args on the x11vnc command
+    sed -i \
+        -e '/command.*x11vnc/ s/ -passwd [^ ]*//g' \
+        -e '/command.*x11vnc/ s/ -rfbauth [^ ]*//g' \
+        -e '/command.*x11vnc/ s/ -nopw//g' \
+        /etc/supervisord.conf
+    # Append the auth file option to the x11vnc command
+    sed -i "s|^\(command.*x11vnc.*\)$|\1 -rfbauth ${VNC_PASSFILE}|" /etc/supervisord.conf
+fi
+
+# Ensure noVNC is not enabled when VNC is disabled
+if [ "$ENABLE_NOVNC" = "true" ] && [ "$ENABLE_VNC" != "true" ]; then
+    echo "Warning: ENABLE_NOVNC=true requires ENABLE_VNC=true; disabling noVNC."
+    ENABLE_NOVNC="false"
 fi
 
 # Disable services based on environment variables

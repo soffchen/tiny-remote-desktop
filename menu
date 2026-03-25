@@ -18,7 +18,7 @@
 [encoding] {UTF-8}
       [exec] (Firefox) {firefox}
 [submenu] (System Tools)
-      [exec]   (top) {x-terminal-emulator -e top}
+      [nop]    (top (no terminal available))
 [end]
 [submenu] (Fluxbox menu)
       [config] (Configure)

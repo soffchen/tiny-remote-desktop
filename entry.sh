@@ -5,8 +5,12 @@ if [ "$VNC_PASSWORD" ]; then
     VNC_PASSFILE="/root/.vncpass"
     x11vnc -storepasswd "$VNC_PASSWORD" "$VNC_PASSFILE"
     chmod 600 "$VNC_PASSFILE"
-    # Make the change idempotent: remove any existing -passwd or -rfbauth args
-    sed -i 's/ -passwd [^ ]*//g; s/ -rfbauth [^ ]*//g' /etc/supervisord.conf
+    # Make the change idempotent: remove any existing -passwd, -rfbauth, or -nopw args on the x11vnc command
+    sed -i \
+        -e '/command.*x11vnc/ s/ -passwd [^ ]*//g' \
+        -e '/command.*x11vnc/ s/ -rfbauth [^ ]*//g' \
+        -e '/command.*x11vnc/ s/ -nopw//g' \
+        /etc/supervisord.conf
     # Append the auth file option to the x11vnc command
     sed -i "s|^\(command.*x11vnc.*\)$|\1 -rfbauth ${VNC_PASSFILE}|" /etc/supervisord.conf
 fi

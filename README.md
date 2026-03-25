@@ -40,7 +40,7 @@ This repository uses GitHub Actions to automatically build and push Docker image
 
 ### How it works:
 
-- **Automatic builds on push**: When code is pushed to `main` or `master` branch, the workflow automatically builds and pushes the image with the `latest` tag
+- **Automatic builds on push**: When code is pushed to the repository's default branch, the workflow automatically builds and pushes the image with the `latest` tag
 - **Version tagging**: When a version tag (e.g., `v1.0.0`) is pushed, the workflow creates corresponding version tags
 - **Manual trigger**: The workflow can also be triggered manually from the Actions tab
 

@@ -1,40 +1,38 @@
-# Alpine docker container image with "headless" VNC/RDP environments
+# Tiny Remote Desktop
 
-Installed with the following components:
+Lightweight headless VNC/RDP desktop environment based on Alpine Edge. Image size ~685MB.
 
-* Desktop environment [**Fluxbox**](http://fluxbox.org)
-* xrdp server (default RDP port `3389`)
-* vnc server (default VNC port `5901`)
-* [**noVNC**](https://github.com/novnc/noVNC) - HTML5 VNC client (default http port `6901`)
-* Browsers:
-  * Chromium
-  * Firefox
-  
+## Components
 
-## Current provided OS & UI sessions:
-
-* `soff/tiny-remote-desktop`: __Alpine with `Fluxbox` UI session__
-
+* Desktop environment: [**Fluxbox**](http://fluxbox.org)
+* xRDP server (port `3389`)
+* VNC server x11vnc (port `5901`)
+* [**noVNC**](https://github.com/novnc/noVNC) - HTML5 VNC client (port `6901`)
+* Browser: Firefox
+* Chinese font: WenQuanYi Zen Hei
 
 ## Usage
 
-- Run command with mapping to local port `5901` (vnc protocol) and `6901` (vnc web access):
+Start all services (VNC + noVNC + RDP):
 
-      docker run -d -p 5901:5901 -p 6901:6901 soff/tiny-remote-desktop
+    docker run -d -p 5901:5901 -p 6901:6901 -p 3389:3389 soff/tiny-remote-desktop
 
-- Run command with mapping to local port `3389` (rdp protocol):
+With VNC password:
 
-      docker run -d -p 3389:3389 soff/tiny-remote-desktop
+    docker run -d -p 5901:5901 -p 6901:6901 -p 3389:3389 -e VNC_PASSWORD="your_password" soff/tiny-remote-desktop
 
-- Run command with mapping to local port `5901` (vnc protocol) and `6901` (vnc web access) with access password:
+Custom resolution:
 
-      docker run -d -p 5901:5901 -p 6901:6901 -e VNC_PASSWORD="vncpassword" soff/tiny-remote-desktop
+    docker run -d -p 5901:5901 -p 6901:6901 -p 3389:3389 -e RESOLUTION=1600x1200 soff/tiny-remote-desktop
 
-- Run command with mapping to local port `5901` (vnc protocol) and `6901` (vnc web access) with specific resolution:
+## Connection
 
-      docker run -d -p 5901:5901 -p 6901:6901 -e RESOLUTION=1600x1200 soff/tiny-remote-desktop
+| Protocol | Address | Notes |
+|----------|---------|-------|
+| noVNC (browser) | `http://localhost:6901` | No client needed |
+| VNC | `localhost:5901` | Use any VNC client |
+| RDP | `localhost:3389` | Use any RDP client |
 
-## Hints
+## Tips
 
-### 1) No start menu?
-Just right click on desktop, the start menu will pop up.
+Right-click on desktop to open the application menu.
